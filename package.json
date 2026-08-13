@@ -2,6 +2,7 @@
   "name": "prism-realm",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://umaimk.github.io/prisonrealmjjkhci/",
   "dependencies": {
     "@react-spring/three": "^10.0.3",
     "@react-three/drei": "^10.7.7",
