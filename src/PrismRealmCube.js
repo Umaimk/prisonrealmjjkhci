@@ -49,24 +49,31 @@ export default function PrismRealmCube() {
 
   useEffect(() => {
     api.start({ offset: open ? SAFE_OFFSET : 0 });
-  }, [open, api]);
+  }, [open, api, SAFE_OFFSET]);
 
   useFrame(() => {
-    if (cubeRef.current) cubeRef.current.rotation.y += 0.01;
+    if (cubeRef.current) {
+      cubeRef.current.rotation.y += 0.01;
+    }
   });
 
   // Cube zoom
   const handleCubeWheel = (e) => {
     e.stopPropagation();
+
     let newScale = cubeScale - e.deltaY * 0.001;
+
     setCubeScale(Math.min(Math.max(newScale, 0.5), 5));
   };
 
   // Gojo zoom
   const handleGojoWheel = (e) => {
     e.stopPropagation();
-    if (!open) return; // only zoom when open
+
+    if (!open) return;
+
     let newScale = gojoScale - e.deltaY * 0.001;
+
     setGojoScale(Math.min(Math.max(newScale, 0.5), 10));
   };
 
@@ -84,14 +91,21 @@ export default function PrismRealmCube() {
           <a.mesh
             key={i}
             position={springs[i].offset.to((o) => [
-              position[0] + (position[0] === 0 ? 0 : Math.sign(position[0]) * o),
-              position[1] + (position[1] === 0 ? 0 : Math.sign(position[1]) * o),
-              position[2] + (position[2] === 0 ? 0 : Math.sign(position[2]) * o),
+              position[0] +
+                (position[0] === 0 ? 0 : Math.sign(position[0]) * o),
+              position[1] +
+                (position[1] === 0 ? 0 : Math.sign(position[1]) * o),
+              position[2] +
+                (position[2] === 0 ? 0 : Math.sign(position[2]) * o),
             ])}
             rotation={rotation}
           >
             <planeGeometry args={[FACE_SIZE, FACE_SIZE]} />
-            <meshBasicMaterial map={eyeTexture} transparent side={THREE.DoubleSide} />
+            <meshBasicMaterial
+              map={eyeTexture}
+              transparent
+              side={THREE.DoubleSide}
+            />
           </a.mesh>
         ))}
       </a.group>
@@ -105,7 +119,11 @@ export default function PrismRealmCube() {
             scale={gojoSpring.gojoScale.to((s) => s)}
             onWheel={handleGojoWheel}
           >
-            <primitive object={gojo} scale={6} rotation={[0, Math.PI, 0]} />
+            <primitive
+              object={gojo}
+              scale={6}
+              rotation={[0, Math.PI, 0]}
+            />
           </a.group>
         </TransformControls>
       )}
